@@ -1,0 +1,81 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: probes
+  annotations:
+    description: template for creating the probes app
+    version: 1.0.0
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: probes
+    spec:
+      selector:
+        deploymentconfig: probes
+      type: NodePort
+      ports:
+        - port: 8080
+          nodePort: 30080
+          targetPort: 8080
+          name: http-server
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: probes
+    spec:
+      replicas: 2
+      selector:
+        deploymentconfig: probes
+      strategy:
+        type: Rolling
+      template:
+        metadata:
+          labels:
+            app: probes
+            deploymentconfig: probes
+        spec:
+          containers:
+            - image: 172.30.1.1:5000/probes/probes
+              name: probes
+              ports:
+                - containerPort: 8080
+                  name: server-port
+              livenessProbe:
+                httpGet:
+                  path: /live
+                  port: server-port
+                initialDelaySeconds: 15
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              readinessProbe:
+                httpGet:
+                  path: /ready
+                  port: server-port
+                initialDelaySeconds: 15
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              terminationMessagePath: /dev/termination-log
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - probes
+            from:
+              kind: ImageStreamTag
+              name: probes:latest
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: probes
+labels:
+  app: probes

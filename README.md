@@ -78,17 +78,17 @@ Deployment #1 (latest):
 	Pods Status:	0 Running / 2 Waiting / 0 Succeeded / 0 Failed
 ```
 
-You can now send requests to the apps [service](https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html)
-via
+As soon as at least one pod is `ready` the apps
+[service](https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html)
+will process requests. You can check the pods readiness with `oc get pods --selector app=probes`.
+Then try
 
 ```sh
 curl --silent --include http://$(minishift ip):30080/pod
 ```
 
 Note that the port is specified in the [./app/app.yml](./app/app.yml) service
-`spec.ports[].nodePort`. You might also need to wait a little until at least
-one pod is `ready`. You can check that with
-`oc get pods --selector app=probes`.
+`spec.ports[].nodePort`.
 
 You'll see that if you repeat the request a few times it will be handled
 by a different pod. This is due to the service acting as an internal load

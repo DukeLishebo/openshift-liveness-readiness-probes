@@ -4,7 +4,8 @@ This repository is meant to demonstrate the [liveness and readiness probes in Op
 and how they interact with the [service](https://docs.openshift.com/container-platform/3.11/architecture/core_concepts/pods_and_services.html) abstraction.
 
 It relies on [Minishift](https://docs.okd.io/3.11/minishift/index.html) to run
-OpenShift locally. The code in the repository was tested using Minishift version 3.11.
+OpenShift locally. The code in the repository was tested using Minishift
+version 1.34 (OKD/OpenShift version 3.11).
 
 The demonstration in this repo most likely applies to apps deployed on
 Kubernetes as OpenShift [is a Kubernetes distribution](https://www.redhat.com/en/blog/openshift-and-kubernetes-whats-difference).
@@ -13,7 +14,7 @@ Kubernetes as OpenShift [is a Kubernetes distribution](https://www.redhat.com/en
 
 - [Docker](https://docs.docker.com/engine/install/)
 - [Setting up the virtualization environment](https://docs.okd.io/3.11/minishift/getting-started/setting-up-virtualization-environment.html)
-- [Minishift 3.11](https://docs.okd.io/3.11/minishift/getting-started/installing.html)
+- [Minishift (OKD 3.11)](https://docs.okd.io/3.11/minishift/getting-started/installing.html)
 
 ## Getting Started
 

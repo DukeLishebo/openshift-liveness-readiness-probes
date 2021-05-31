@@ -129,7 +129,7 @@ oc exec <fill_in_podname> -- curl --silent --include http://localhost:8080/pod
 
 Fill in the name of one of the running pods `oc get pods --selector app=probes`.
 
-To talk to the service which routes traffic to the pods execute
+To target the service which routes traffic to the pods execute
 
 ```sh
 curl --silent --include http://$(minishift ip):30080/pod
